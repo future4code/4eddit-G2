@@ -9,6 +9,7 @@ import { routes } from "../Router";
 // import ButtonAppBar from '../../componentes/appBar'
 // import { login } from "../../actions/auth";
 import { Card } from "@material-ui/core";
+import { login } from "../../actions/auth";
 
 const ErrorMessage = styled.p`
   color: red;
@@ -51,10 +52,13 @@ class LoginPage extends Component {
     });
   };
 
-  onClickLogin = () => {
+  onClickLogin = (event) => {
+    event.preventDefault();
     const { email, password } = this.state
     this.props.doLogin( email, password )
   }
+
+  
 
   render() {
     const { email, password } = this.state;
@@ -62,7 +66,7 @@ class LoginPage extends Component {
     return (
       <DivStyled>
         <CardStyled >
-            <FormSyled >
+            <FormSyled onSubmit={this.onClickLogin}>
                 <TextField 
                 onChange={this.handleFieldChange}
                 name="email"
@@ -81,9 +85,9 @@ class LoginPage extends Component {
                 value={password}
                 style={{margin: '20px', }}
                 required={true}
-                inputProps={{ minlength: "6" }}
+                inputProps={{ minlength: "1" }}
                 />
-                <Button variant="contained" color="primary"  onClick={this.props.goToFeed} style={{marginBottom: '10px'}}>Login</Button>
+                <Button variant="contained" color="primary"  type='submit' style={{marginBottom: '10px'}}>Login</Button>
                 <Button variant="contained" color="primary" onClick={this.props.goToCreateUser}style={{marginBottom: '10px'}}>Cadastrar</Button>
                 {/* {errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null} */}
             </FormSyled>
@@ -103,6 +107,7 @@ class LoginPage extends Component {
 const mapDispatchToProps = dispatch => ({
   goToCreateUser: () => dispatch(push(routes.createUser)),
   goToFeed: () => dispatch(push(routes.feed)),
+  doLogin: (email, password) => dispatch(login(email, password))
 //   goToHomePage: () => dispatch(push(routes.home)),
 //   goToLoginPage: () => dispatch(push(routes.login)),
 //   goToApplicationForm: () => dispatch(push(routes.applicationForm)),

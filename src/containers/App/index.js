@@ -15,6 +15,7 @@ import { createBrowserHistory } from "history";
 import { createStore, applyMiddleware, compose } from "redux";
 import { generateReducers } from "../../reducers";
 import { routerMiddleware } from "connected-react-router";
+import LoginPage from '../LoginPage/LoginPage'
 
 const generateClassName = createGenerateClassName();
 const jss = create({
@@ -39,6 +40,7 @@ export const App = () => (
     <JssProvider jss={jss} generateClassName={generateClassName}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
+        
         <Router history={history} />
       </MuiThemeProvider>
     </JssProvider>

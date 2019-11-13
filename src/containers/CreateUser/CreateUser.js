@@ -46,7 +46,9 @@ class LoginPage extends Component {
         };
     }
 
-
+    onHandleClick(){
+        console.log('clicou')
+    }
 
     handleFieldChange = event => {
         this.setState({

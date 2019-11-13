@@ -12,10 +12,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import styled from "styled-components";
 
 export const CardStyled = styled(Card)`
-  width: 50%;
+  width: 50vw;
   display:flex;
   flex-direction:column;
-  padding:10px;
   margin-bottom:30px;
 `
 
@@ -27,9 +26,7 @@ class Post extends Component {
         };
     }
 
-    handleExpandClick = () => {
-        this.setState(state => ({ expanded: !state.expanded }));
-      };
+    
     render(){
     return (
         <CardStyled >
@@ -42,53 +39,30 @@ class Post extends Component {
                   <p>  {this.props.textCard}</p>
           </Typography>
             </CardContent>
-            <CardActions disableActionSpacing>
+            <CardActions disableActionSpacing  style={{ justifyContent: 'space-between' }} zIndex="0">
+                
                 <IconButton >
                    {this.props.upVote}
                 </IconButton>
-                    {this.props.votesCountCard}
+                    <p>{this.props.votesCountCard}</p>
                 <IconButton >
                     {this.props.DownVote}
                 </IconButton>
-                    {this.props.commentsNumberCard}
+                    
                 <Button
                     size="small"
                     color="primary"
-                    style={{ alignSelf: 'center' }}
-                >
-                    Learn More
-            </Button>
-                <IconButton
-                    // className={classnames(classes.expand, {
-                    //   [classes.expandOpen]: this.state.expanded,
-                    // })}
-                    onClick={this.handleExpandClick}
-                    aria-expanded={this.state.expanded}
+                    onClick={this.props.handleExpandClick}
+                    aria-expanded={this.props.expanded}
                     aria-label="Show more"
                 >
-                    <ExpandMoreIcon />
-                </IconButton>
+                   {this.props.commentsNumberCard} Comentários
+            </Button>
+                
             </CardActions>
-            <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+            <Collapse in={this.props.expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    {/* <List >
-                        {[0, 1, 2, 3].map(value => (
-                            //INSERIR USUARIO E COMENTARIO
-                            <ListItem key={value} role={undefined} dense button style={{ position: 'relative' }}>
-
-                                <ListItemText primary={`Line item ${value + 1}`} />
-                                <ListItemSecondaryAction>
-                                    <IconButton aria-label="Add to favorites">
-                                        <UpVote />
-                                    </IconButton>
-                                    <p>0</p>
-                                    <IconButton aria-label="Share">
-                                        <DownVote />
-                                    </IconButton>
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        ))}
-                    </List> */}
+                    {this.props.showComments}
                 </CardContent>
             </Collapse>
         </CardStyled>

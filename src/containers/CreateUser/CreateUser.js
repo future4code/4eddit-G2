@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { routes } from "../Router";
 // import { DivStyled, Div1, Div2, CardStyled } from '../../style/theme'
 // import ButtonAppBar from '../../componentes/appBar'
-// import { login } from "../../actions/auth";
+import { signUp } from "../../actions/auth";
 import { Card } from "@material-ui/core";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
@@ -66,9 +66,11 @@ class LoginPage extends Component {
         });
     };
 
-    onClickLogin = () => {
+    onClickCreateUser = (event) => {
+        
+        event.preventDefault();
         const { email, password, user } = this.state
-        this.props.doLogin(email, password)
+        this.props.signUp(email, password, user)
     }
 
     handleClickShowPassword = () => {
@@ -81,7 +83,7 @@ class LoginPage extends Component {
         return (
             <DivStyled>
                 <CardStyled >
-                    <FormStyled onSubmit={this.algo}>
+                    <FormSyled onSubmit={this.onClickCreateUser}>
                         <TextField
                             onChange={this.handleFieldChange}
                             name="user"
@@ -158,7 +160,7 @@ class LoginPage extends Component {
 const mapDispatchToProps = dispatch => ({
     goToCreateUser: () => dispatch(push(routes.createUser)),
     goToLogin: () => dispatch(push(routes.root)),
-
+    signUp: (email, password, user) => dispatch(signUp(email, password, user))
     //   goToHomePage: () => dispatch(push(routes.home)),
     //   goToLoginPage: () => dispatch(push(routes.login)),
     //   goToApplicationForm: () => dispatch(push(routes.applicationForm)),

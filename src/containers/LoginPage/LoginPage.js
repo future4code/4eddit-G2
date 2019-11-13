@@ -148,6 +148,7 @@ class LoginPage extends Component {
         </LoginStyled>
 
       </DivStyled >
+
     );
   }
 }

@@ -46,11 +46,11 @@ class Post extends Component {
                 <IconButton >
                    {this.props.upVote}
                 </IconButton>
-                    <p>{this.props.votesCountCard}</p>
+                    {this.props.votesCountCard}
                 <IconButton >
-                    <DownVote />
+                    {this.props.DownVote}
                 </IconButton>
-                    <p>{this.props.commentsNumberCard}</p>
+                    {this.props.commentsNumberCard}
                 <Button
                     size="small"
                     color="primary"

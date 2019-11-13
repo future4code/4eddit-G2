@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { routes } from "../Router";
 // import { DivStyled, Div1, Div2, CardStyled } from '../../style/theme'
 // import ButtonAppBar from '../../componentes/appBar'
-// import { login } from "../../actions/auth";
+import { signUp } from "../../actions/auth";
 import { Card } from "@material-ui/core";
 
 const ErrorMessage = styled.p`
@@ -54,9 +54,11 @@ class LoginPage extends Component {
         });
     };
 
-    onClickLogin = () => {
+    onClickCreateUser = (event) => {
+        
+        event.preventDefault();
         const { email, password, user } = this.state
-        this.props.doLogin(email, password)
+        this.props.signUp(email, password, user)
     }
 
     render() {
@@ -65,12 +67,12 @@ class LoginPage extends Component {
         return (
             <DivStyled>
                 <CardStyled >
-                    <FormSyled onSubmit={this.algo}>
+                    <FormSyled onSubmit={this.onClickCreateUser}>
                         <TextField
                             onChange={this.handleFieldChange}
                             name="user"
                             type="text"
-                            label="User"
+                            label="Usuário"
                             value={user}
                             style={{ margin: '20px', }}
                             required={true}
@@ -88,7 +90,7 @@ class LoginPage extends Component {
                             onChange={this.handleFieldChange}
                             name="password"
                             type="password"
-                            label="Password"
+                            label="Senha"
                             value={password}
                             style={{ margin: '20px', }}
                             required={true}
@@ -114,7 +116,7 @@ class LoginPage extends Component {
 const mapDispatchToProps = dispatch => ({
     goToCreateUser: () => dispatch(push(routes.createUser)),
     goToLogin: () => dispatch(push(routes.root)),
-    
+    signUp: (email, password, user) => dispatch(signUp(email, password, user))
     //   goToHomePage: () => dispatch(push(routes.home)),
     //   goToLoginPage: () => dispatch(push(routes.login)),
     //   goToApplicationForm: () => dispatch(push(routes.applicationForm)),

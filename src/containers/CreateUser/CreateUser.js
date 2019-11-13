@@ -87,7 +87,7 @@ class LoginPage extends Component {
         return (
             <DivStyled>
                 <CardStyled >
-                    <FormSyled onSubmit={this.onClickCreateUser}>
+                    <FormStyled onSubmit={this.onClickCreateUser}>
                         <TextField
                             onChange={this.handleFieldChange}
                             name="user"

@@ -81,7 +81,7 @@ class LoginPage extends Component {
                 onChange={this.handleFieldChange}
                 name="password"
                 type="password"
-                label="Password"
+                label="Senha"
                 value={password}
                 style={{margin: '20px', }}
                 required={true}

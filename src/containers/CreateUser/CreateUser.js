@@ -9,19 +9,32 @@ import { routes } from "../Router";
 // import ButtonAppBar from '../../componentes/appBar'
 // import { login } from "../../actions/auth";
 import { Card } from "@material-ui/core";
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import IconButton from '@material-ui/core/IconButton';
 
 const ErrorMessage = styled.p`
   color: red;
 `;
 
+const StyledBtn = styled(Button)`
+  background-color: #00C1C8;
+  font-weight: bold;
+  color: white;
 
-export const CardStyled = styled(Card)`
-  width: 40vw;
+  :hover{
+  background-color: #00adb4;
+  }
+`
+const CardStyled = styled(Card)`
+  width: 30vw;
   display:flex;
   flex-direction:column;
   padding:10px;
+  box-shadow: 4px 4px 5px lightgray;
 `
-export const DivStyled = styled.div`
+const DivStyled = styled.div`
   height:100vh;
   width:100vw;
   display:flex;
@@ -29,8 +42,7 @@ export const DivStyled = styled.div`
   justify-content:center;
   align-items:center;
 `
-
-const FormSyled = styled.form`
+const FormStyled = styled.form`
     display:flex;
     flex-direction:column;
 `
@@ -42,10 +54,10 @@ class LoginPage extends Component {
         this.state = {
             email: "",
             password: "",
-            user:"",
+            user: "",
+            showPassword: false,
         };
     }
-
 
 
     handleFieldChange = event => {
@@ -59,20 +71,24 @@ class LoginPage extends Component {
         this.props.doLogin(email, password)
     }
 
+    handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }));
+    };
+
     render() {
         const { email, password, user } = this.state;
         // const { errorMessage } = this.props;
         return (
             <DivStyled>
                 <CardStyled >
-                    <FormSyled onSubmit={this.algo}>
+                    <FormStyled onSubmit={this.algo}>
                         <TextField
                             onChange={this.handleFieldChange}
                             name="user"
                             type="text"
-                            label="User"
+                            label="Usuário"
                             value={user}
-                            style={{ margin: '20px', }}
+                            style={{ margin: '20px', marginBottom: '10px' }}
                             required={true}
                         />
                         <TextField
@@ -81,23 +97,51 @@ class LoginPage extends Component {
                             type="email"
                             label="E-mail"
                             value={email}
-                            style={{ margin: '20px', }}
+                            style={{ margin: '20px', marginBottom: '10px' }}
                             required={true}
                         />
+
                         <TextField
                             onChange={this.handleFieldChange}
+                            id="outlined-adornment-password"
                             name="password"
-                            type="password"
-                            label="Password"
+                            type={this.state.showPassword ? 'text' : 'password'}
+                            label="Senha"
                             value={password}
-                            style={{ margin: '20px', }}
+                            style={{ margin: '20px', marginBottom: '40px' }}
                             required={true}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="Toggle password visibility"
+                                            onClick={this.handleClickShowPassword}
+                                        >
+                                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
-                        <Button variant="contained" color="primary" type='submit' style={{ marginBottom: '10px' }}>Cadastrar</Button>
-                        <Button variant="contained" color="primary"  onClick={this.props.goToLogin} style={{marginBottom: '10px'}}>Voltar</Button>
-                        
+
+                        <StyledBtn
+                            variant="contained"
+                            color="primary"
+                            type='submit'
+                            style={{ marginBottom: '10px' }}
+                        >Cadastrar
+                        </StyledBtn>
+
+                        <StyledBtn
+                            variant="contained"
+                            color="primary"
+                            onClick={this.props.goToLogin}
+                            style={{ marginBottom: '10px' }}
+                        >Voltar
+                        </StyledBtn>
+
                         {/* {errorMessage ? <ErrorMessage>{errorMessage}</ErrorMessage> : null} */}
-                    </FormSyled>
+                    </FormStyled>
                 </CardStyled>
 
             </DivStyled>
@@ -114,7 +158,7 @@ class LoginPage extends Component {
 const mapDispatchToProps = dispatch => ({
     goToCreateUser: () => dispatch(push(routes.createUser)),
     goToLogin: () => dispatch(push(routes.root)),
-    
+
     //   goToHomePage: () => dispatch(push(routes.home)),
     //   goToLoginPage: () => dispatch(push(routes.login)),
     //   goToApplicationForm: () => dispatch(push(routes.applicationForm)),

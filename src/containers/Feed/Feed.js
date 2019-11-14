@@ -17,11 +17,22 @@ import { MySnackbarContentWrapper } from "../../components/SnackBar/snackBar";
 import Axios from "axios";
 import Comments from "../../components/Comments/comments";
 
+const InsertPostWrapper = styled.div`
+  display: flex;
+  position: fixed;
+  z-index: 11;
+  align-items: center;
+  flex-direction: column;
+  background-color: #002628;
+  width: 100vw;
+  height: 20vw;
+`
 const AppWrapper = styled.div`
     display:flex;
     flex-direction:column;  
     width:100vw;
     align-items:center;
+    background-color: #002628;
 `
 const FeedContent = styled.div`
     display:flex;
@@ -30,16 +41,7 @@ const FeedContent = styled.div`
     justify-content:center;
     align-items:center; 
 `
-const InsertPostWrapper = styled.div`
-  display: flex;
-  position: fixed;
-  z-index: 11;
-  align-items: center;
-  flex-direction: column;
-  background-color: #FAFAFA;
-  width: 100vw;
-  height: 20vw;
-`
+
 const FormSyled = styled.form`
     display:flex;
     flex-direction:column;
@@ -59,37 +61,14 @@ const CardStyled = styled(Card)`
   margin-bottom:30px;
   align-items:center;
 `
-const CardComment = styled(Card)`
-  display:flex;
-  flex-direction:column;
-  padding:10px;
-  margin-bottom:30px;
-  position:fixed;
-  top:20px;
-  flex:1;
-  `
-const DivStyled = styled.div`
-  height:100vh;
-  width:100vw;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-`
+
 const DivPosts = styled.div`
   width:100vw;
   display:flex;
   flex-direction:column;
   align-items:center;
 `
-const PostCommentWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 15px;
-`
-const StyledTextField = styled(TextField)`
-    width: 80%;
-`
+
 
 class Feed extends Component {
   constructor(props) {
@@ -173,7 +152,6 @@ class Feed extends Component {
       <AppWrapper>
         <InsertPostWrapper>
           <PostCreate>
-
             <CardStyled>
               <FormSyled onSubmit={this.onCreatePost}>
                 <TextField placeholder={"Sobre o que você quer falar?"}

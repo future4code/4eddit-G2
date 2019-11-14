@@ -5,8 +5,6 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import { routes } from "../Router";
-// import { DivStyled, Div1, Div2, CardStyled } from '../../style/theme'
-// import ButtonAppBar from '../../componentes/appBar'
 import { signUp } from "../../actions/auth";
 import { Card } from "@material-ui/core";
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -32,7 +30,11 @@ const CardStyled = styled(Card)`
   display:flex;
   flex-direction:column;
   padding:10px;
-  box-shadow: 4px 4px 5px lightgray;
+  box-shadow: 3px 3px 4px #006064;
+
+    :hover{
+    box-shadow: 4px 4px 5px #006064;
+    }
 `
 const DivStyled = styled.div`
   height:100vh;
@@ -41,6 +43,7 @@ const DivStyled = styled.div`
   flex-direction:column;
   justify-content:center;
   align-items:center;
+  background-color: #002628;
 `
 const FormStyled = styled.form`
     display:flex;
@@ -60,10 +63,10 @@ class LoginPage extends Component {
     }
 
 
-    onHandleClick(){
+    onHandleClick() {
         console.log('clicou')
     }
-  
+
     handleFieldChange = event => {
         this.setState({
             [event.target.name]: event.target.value
@@ -71,7 +74,7 @@ class LoginPage extends Component {
     };
 
     onClickCreateUser = (event) => {
-        
+
         event.preventDefault();
         const { email, password, user } = this.state
         this.props.signUp(email, password, user)

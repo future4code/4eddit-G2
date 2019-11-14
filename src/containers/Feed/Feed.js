@@ -212,7 +212,7 @@ class Feed extends Component {
                   color="primary"
                   type='submit'
                   variant="contained"
-                  disabled={!this.state.title && !this.state.post}
+                  disabled={!this.state.post}
                 >
                   Postar
                     </Button>

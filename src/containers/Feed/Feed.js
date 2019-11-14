@@ -128,51 +128,54 @@ class Feed extends Component {
   }
 
   clickUpVote = (post) => {
-    if (post.userVoteDirection < 0) {
-      this.props.postUpVote(post.id)
-    } 
+    this.props.postUpVote(post.id)
+    // if (post.userVoteDirection < 0) {
+    //   this.props.postUpVote(post.id)
+    // } 
   }
  
   clickDownVote = (post) => {
-    if (post.userVoteDirection > 0) {
-      this.props.postDownVote(post.id)
-    } 
+    this.props.postDownVote(post.id)
+    // if (post.userVoteDirection > 0) {
+    //   this.props.postDownVote(post.id)
+    // } 
   }
-  clickDownVoteComments = (post) => {
-    console.log('clicou', post)
-    this.props.postDownVoteComments(post.id)
+  clickDownVoteComments = (commentId, postId) => {
+    console.log('comment', commentId, 'post', postId)
+    this.props.postDownVoteComments(commentId, postId)
     // if (post.userVoteDirection > 0) {
     //   this.props.postDownVoteComments(post.id)
     // } 
   }
 
-  clickUpVoteComments = (post) => {
-    console.log('clicou')
-    if (post.userVoteDirection < 0) {
-      this.props.postUpVoteComments(post.id)
-    } 
+  clickUpVoteComments = (commentId, postId) => {
+    console.log('comment', commentId, 'post', postId)
+    this.props.postUpVoteComments(commentId,postId )
+    // if (post.userVoteDirection < 0) {
+    //   this.props.postUpVoteComments(post.id)
+    // } 
   }
-  comments = async (postCommentId, postId) => {
-    console.log(postId, postCommentId)
-    // const token = window.localStorage.getItem("token");
+  comments = async ( postId) => {
+    console.log(postId)
+    const token = window.localStorage.getItem("token");
 
-    // try {
-    //   const response = await Axios.get(
-    //     `https://us-central1-missao-newton.cloudfunctions.net/fourEddit/posts/${postId}`,
-    //     {
-    //       headers: {
-    //         auth: token
-    //       }
-    //     }
-    //   );
-    //   let feedComments = response.data.post.comments
-    //   this.setState({
-    //     [postId]: feedComments 
-    //   })
-    //   console.log(this.state)
-    // } catch (e) {
-    //   window.alert(e.message)
-    // }
+    try {
+      const response = await Axios.get(
+        `https://us-central1-missao-newton.cloudfunctions.net/fourEddit/posts/${postId}`,
+        {
+          headers: {
+            auth: token
+          }
+        }
+      );
+      let feedComments = response.data.post.comments
+      this.setState({
+        [postId]: feedComments 
+      })
+      console.log(this.state)
+    } catch (e) {
+      window.alert(e.message)
+    }
   }
   render() {
     console.log(this.state)
@@ -216,16 +219,16 @@ class Feed extends Component {
                 showComments={() => this.comments(post.id)}
                 onClickUpVote={() => this.clickUpVote(post)}
                 onClickDownVote={() => this.clickDownVote(post)}
-                comments={ this.state[post.id] && this.state[post.id].map((post) => (
+                comments={ this.state[post.id] && this.state[post.id].map((comment) => (
                 <Comments 
-                  UserName={post.username}
-                  onClickUpVoteComment={() => this.clickUpVoteComments(this.state[post.id][post.id.id], post.id)}
-                  onClickDownVoteComment={() => this.clickDownVoteComments(post)}
-                  upVote={post.userVoteDirection > 0 ? <UpVote /> : <UpVoteOutlined />}
-                  DownVote={post.userVoteDirection < 0 ? <DownVote /> : <DownVoteOutlined />}
-                  commentsNumberCard={post.commentsNumber}
-                  textComments={post.text}
-                  votesCountCard={post.votesCount}
+                  UserName={comment.username}
+                  onClickUpVoteComment={() => this.clickUpVoteComments(comment.id, post.id)}
+                  onClickDownVoteComment={() => this.clickDownVoteComments(comment.id, post.id)}
+                  upVote={comment.userVoteDirection > 0 ? <UpVote /> : <UpVoteOutlined />}
+                  DownVote={comment.userVoteDirection < 0 ? <DownVote /> : <DownVoteOutlined />}
+                  commentsNumberCard={comment.commentsNumber}
+                  textComments={comment.text}
+                  votesCountCard={comment.votesCount}
                 ></Comments>
                   )
                 )}
@@ -272,8 +275,8 @@ const mapDispatchToProps = dispatch => ({
   postUpVote: (id) => dispatch(postUpVote(id)),
   postDownVote: (id) => dispatch(postDownVote(id)),
   onCloseSnackBar: () => dispatch(onCloseSnackBar()),
-  postDownVoteComments: (id) =>dispatch(postDownComments(id)),
-  postUpVoteComments: (id) =>dispatch(postUpComments(id))
+  postDownVoteComments: (commentId, postId) =>dispatch(postDownComments(commentId, postId)),
+  postUpVoteComments: (commentId, postId) =>dispatch(postUpComments(commentId, postId))
 
   //   goToFeed: () => dispatch(push(routes.login)),
   //   goToApplicationForm: () => dispatch(push(routes.applicationForm)),

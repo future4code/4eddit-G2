@@ -111,27 +111,28 @@ export const snackBarOpen = (msg, variant ) => {
 	}
 };
 
-export const postUpComments = (id ) => async (dispatch, getState) => {
+export const postUpComments = (commentId, postId ) => async (dispatch, getState) => {
 	const token = window.localStorage.getItem("token");
-	const idVote = id
+	
+	console.log(commentId, postId)
 	const data = {direction: +1}
 	try {
 
 		const response = await axios.put(
-			`https://us-central1-missao-newton.cloudfunctions.net/fourEddit/posts/:postId/comment/${idVote}/vote`, data,
+			`https://us-central1-missao-newton.cloudfunctions.net/fourEddit/posts/${postId}/comment/${commentId}/vote`, data,
 			{
 				headers: {
 					auth: token
 				}
 			}
 		);
-		dispatch(comments(idVote));
+		// dispatch(comments(idVote));
 	} catch (e) {
 		window.alert(e.message)
 	}
 }
 
-const comments = async (postId) => {
+const comments = ( postId) => async () => {
     console.log(postId)
     const token = window.localStorage.getItem("token");
 
@@ -154,23 +155,23 @@ const comments = async (postId) => {
     }
   }
 
-  export const postDownComments = (id ) => async (dispatch, getState) => {
+  export const postDownComments = (commentId, postId ) => async (dispatch, getState) => {
 	const token = window.localStorage.getItem("token");
-	const idVote = id
-	const data = {direction: -1}
 	
-	// try {
+	const data = {direction: -1}
+	console.log(commentId, postId)
+	try {
 
-	// 	const response = await Axios.put(
-	// 		`https://us-central1-missao-newton.cloudfunctions.net/fourEddit/posts//comment/${idVote}/vote`, data,
-	// 		{
-	// 			headers: {
-	// 				auth: token
-	// 			}
-	// 		}
-	// 	);
-	// 	// dispatch(comments(idVote));
-	// } catch (e) {
-	// 	window.alert(e.message)
-	// }
+		const response = await Axios.put(
+			`https://us-central1-missao-newton.cloudfunctions.net/fourEddit/posts/${postId}/comment/${commentId}/vote`, data,
+			{
+				headers: {
+					auth: token
+				}
+			}
+		);
+		dispatch(comments(postId));
+	} catch (e) {
+		window.alert(e.message)
+	}
 }

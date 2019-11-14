@@ -42,7 +42,15 @@ class Post extends Component {
     handleExpandClick = () => {
         this.setState(state => ({ expanded: !state.expanded }));
         this.props.showComments()
-      };
+    };
+
+    handleFieldChange = event => {
+        this.setState({
+          [event.target.name]: event.target.value
+        });
+    };
+
+    
     
     render(){
     return (
@@ -98,6 +106,7 @@ class Post extends Component {
                         type='submit'
                         variant="contained"
                         onClick={this.props.onClickSendComment}
+                        disabled={!this.state.comentario}
                     >
                         Comentar
                     </StyledBtn>

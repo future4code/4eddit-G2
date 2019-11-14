@@ -17,6 +17,9 @@ export const CardStyled = styled(Card)`
   flex-direction:column;
   margin-bottom:30px;
 `
+const IconWrapper = styled.div`
+    display: flex;
+`
 
 class Post extends Component {
     constructor(props) {
@@ -36,7 +39,7 @@ class Post extends Component {
         <CardStyled >
             <CardHeader
                 title={this.props.titleCard}
-                subheader={this.props.usernameCard}
+                subheader={"Postado por: " + this.props.usernameCard}
             />
             <CardContent>
                 <Typography component="p">
@@ -45,6 +48,7 @@ class Post extends Component {
             </CardContent>
             <CardActions disableActionSpacing  style={{ justifyContent: 'space-between' }}>
                 
+                <IconWrapper>
                 <IconButton onClick={this.props.onClickUpVote} >
                    {this.props.upVote}
                 </IconButton>
@@ -52,6 +56,7 @@ class Post extends Component {
                 <IconButton onClick={this.props.onClickDownVote}>
                     {this.props.DownVote}
                 </IconButton>
+                </IconWrapper>
                     
                 <Button
                     size="small"

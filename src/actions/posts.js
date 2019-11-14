@@ -34,7 +34,7 @@ export const createPost = (title, text) => async (dispatch, getState) => {
 	try {
 
 		const response = await axios.post(
-			"https://us-central1-missao-newton.cloudfunctions.net/fourEddit/pos", data,
+			"https://us-central1-missao-newton.cloudfunctions.net/fourEddit/posts", data,
 			{
 				headers: {
 					auth: token

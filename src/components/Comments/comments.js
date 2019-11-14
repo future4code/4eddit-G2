@@ -13,20 +13,35 @@ import styled from "styled-components";
 
 export const CardStyled = styled(Card)`
   width: 50vw;
-  display:flex;
-  flex-direction:column;
-  margin-bottom:30px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
 `
 const IconsWrapper = styled.div`
-    display:flex;
+    display: flex;
 `
 const CommentsWrapper = styled.div`
-    display:flex;
+    display: flex;
 `
 const CommentsArea = styled.div`
-    display:flex;
-    justify-content:space-between;
-    border: 1px solid red;
+    display: flex;
+`
+const BoldTxt = styled.p`
+    font-weight: bold;
+    margin-right: 5px;
+`
+const TxtComentario = styled.div`
+    display: flex;
+    align-items: center;
+`
+const PostCommentWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+`
+const StyledTextField = styled(TextField)`
+    width: 80%;
 `
 
 class Comments extends Component {
@@ -40,49 +55,65 @@ class Comments extends Component {
     handleExpandClick = () => {
         this.setState(state => ({ expanded: !state.expanded }));
         this.props.showComments()
-      };
+    };
 
     handleFieldChange = event => {
         this.setState({
-          [event.target.name]: event.target.value
+            [event.target.name]: event.target.value
         });
-      };
+    };
 
-      
 
-    render(){
-    return (
-        <div>
-            <CommentsArea>
 
-            <CommentsWrapper>
-                <div>
-                    <p>{this.props.UserName}:{this.props.textComments}</p>
-                </div>
-                <IconsWrapper>
-                    <IconButton onClick={this.props.onClickUpVoteComment} >
-                    {this.props.upVote}
-                    </IconButton>
-                        <p>{this.props.votesCountCard}</p>
-                    <IconButton onClick={this.props.onClickDownVoteComment}>
-                        {this.props.DownVote}
-                    </IconButton>
-                </IconsWrapper>
-            </CommentsWrapper>
-            </CommentsArea>
+    render() {
+        return (
             <div>
-                <TextField 
-                    name="comentario"
-                     value={this.state.comentario}
-                      type="text"
-                      onChange={this.handleFieldChange}></TextField>
-                <Button onClick={this.props.onClickSendComment}></Button>
-            </div>
-            
-        </div>
+                <CommentsArea>
 
-    );
-}
+                    <CommentsWrapper>
+
+                        <TxtComentario>
+                            <BoldTxt>{this.props.UserName + ":"}</BoldTxt>{this.props.textComments}
+                        </TxtComentario>
+
+                        <IconsWrapper>
+                            <IconButton onClick={this.props.onClickUpVoteComment} >
+                                {this.props.upVote}
+                            </IconButton>
+                            <p>{this.props.votesCountCard}</p>
+                            <IconButton onClick={this.props.onClickDownVoteComment}>
+                                {this.props.DownVote}
+                            </IconButton>
+                        </IconsWrapper>
+
+                    </CommentsWrapper>
+
+                </CommentsArea>
+
+                <PostCommentWrapper>
+                    <StyledTextField
+                        name="comentario"
+                        placeholder="Escreva seu comentário..."
+                        type="text"
+                        value={this.state.comentario}
+                        onChange={this.handleFieldChange}
+                        variant="outlined"
+                    >
+                    </StyledTextField>
+                    <Button
+                        color="primary"
+                        type='submit'
+                        variant="contained"
+                        onClick={this.props.onClickSendComment}
+                    >
+                        Comentar
+                    </Button>
+                </PostCommentWrapper>
+
+            </div>
+
+        );
+    }
 }
 
 export default Comments; 

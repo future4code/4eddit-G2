@@ -30,7 +30,6 @@ const AppWrapper = styled.div`
     width:100vw;
     align-items:center;
 `
-
 const FeedContent = styled.div`
     display:flex;
     flex: 1;
@@ -38,19 +37,29 @@ const FeedContent = styled.div`
     justify-content:center;
     align-items:center; 
 `
+const InsertPostWrapper = styled.div`
+  display: flex;
+  position: fixed;
+  z-index: 11;
+  align-items: center;
+  flex-direction: column;
+  background-color: #FAFAFA;
+  width: 100vw;
+  height: 20vw;
+`
 const FormSyled = styled.form`
     display:flex;
     flex-direction:column;
-    width:50vw;
+    width:100%;
+    padding: 10px;
 `
 const PostCreate = styled.div`
-  position:sticky;
+  position:fixed;
   top:20px; 
-  flex: 0;
   z-index: 10;
+  width: 50vw;
 `
 const CardStyled = styled(Card)`
-  
   display:flex;
   flex-direction:column;
   padding:10px;
@@ -58,7 +67,6 @@ const CardStyled = styled(Card)`
   align-items:center;
 `
 const CardComment = styled(Card)`
-
   display:flex;
   flex-direction:column;
   padding:10px;
@@ -133,7 +141,7 @@ class Feed extends Component {
     //   this.props.postUpVote(post.id)
     // } 
   }
- 
+
   clickDownVote = (post) => {
     this.props.postDownVote(post.id)
     // if (post.userVoteDirection > 0) {
@@ -150,12 +158,12 @@ class Feed extends Component {
 
   clickUpVoteComments = (commentId, postId) => {
     console.log('comment', commentId, 'post', postId)
-    this.props.postUpVoteComments(commentId,postId )
+    this.props.postUpVoteComments(commentId, postId)
     // if (post.userVoteDirection < 0) {
     //   this.props.postUpVoteComments(post.id)
     // } 
   }
-  comments = async ( postId) => {
+  comments = async (postId) => {
     console.log(postId)
     const token = window.localStorage.getItem("token");
 
@@ -170,7 +178,7 @@ class Feed extends Component {
       );
       let feedComments = response.data.post.comments
       this.setState({
-        [postId]: feedComments 
+        [postId]: feedComments
       })
       console.log(this.state)
     } catch (e) {
@@ -181,29 +189,37 @@ class Feed extends Component {
     console.log(this.state)
     return (
       <AppWrapper>
-        <PostCreate>
+        <InsertPostWrapper>
+          <PostCreate>
 
-          <CardStyled>
-            <FormSyled onSubmit={this.onCreatePost}>
-              <TextField placeholder={"Insira o titulo"}
-                name="title"
-                value={this.state.title}
-                onChange={this.handleFieldChange} />
-              <TextField
-                multiline rows={4}
-                style={{ marginBottom: '20px' }}
-                placeholder={"Insira o Texto"}
-                name="post"
-                value={this.state.post}
-                onChange={this.handleFieldChange}>
-
-              </TextField>
-              <Button color="primary" type='submit' variant="contained">
-                Postar
+            <CardStyled>
+              <FormSyled onSubmit={this.onCreatePost}>
+                <TextField placeholder={"Sobre o que você quer falar?"}
+                  name="title"
+                  value={this.state.title}
+                  onChange={this.handleFieldChange} 
+                  style={{ marginBottom: '20px' }}
+                  />
+                <TextField
+                  multiline rows={4}
+                  style={{ marginBottom: '20px' }}
+                  placeholder={"Solta o verbo!"}
+                  name="post"
+                  value={this.state.post}
+                  onChange={this.handleFieldChange}>
+                </TextField>
+                <Button
+                  color="primary"
+                  type='submit'
+                  variant="contained"
+                  disabled={!this.state.title && !this.state.post}
+                >
+                  Postar
                     </Button>
-            </FormSyled>
-          </CardStyled>
-        </PostCreate>
+              </FormSyled>
+            </CardStyled>
+          </PostCreate>
+        </InsertPostWrapper>
         <FeedContent>
           {this.props.posts.map((post) => (
             <DivPosts key={post.id}>
@@ -219,18 +235,18 @@ class Feed extends Component {
                 showComments={() => this.comments(post.id)}
                 onClickUpVote={() => this.clickUpVote(post)}
                 onClickDownVote={() => this.clickDownVote(post)}
-                comments={ this.state[post.id] && this.state[post.id].map((comment) => (
-                <Comments 
-                  UserName={comment.username}
-                  onClickUpVoteComment={() => this.clickUpVoteComments(comment.id, post.id)}
-                  onClickDownVoteComment={() => this.clickDownVoteComments(comment.id, post.id)}
-                  upVote={comment.userVoteDirection > 0 ? <UpVote /> : <UpVoteOutlined />}
-                  DownVote={comment.userVoteDirection < 0 ? <DownVote /> : <DownVoteOutlined />}
-                  commentsNumberCard={comment.commentsNumber}
-                  textComments={comment.text}
-                  votesCountCard={comment.votesCount}
-                ></Comments>
-                  )
+                comments={this.state[post.id] && this.state[post.id].map((comment) => (
+                  <Comments
+                    UserName={comment.username}
+                    onClickUpVoteComment={() => this.clickUpVoteComments(comment.id, post.id)}
+                    onClickDownVoteComment={() => this.clickDownVoteComments(comment.id, post.id)}
+                    upVote={comment.userVoteDirection > 0 ? <UpVote /> : <UpVoteOutlined />}
+                    DownVote={comment.userVoteDirection < 0 ? <DownVote /> : <DownVoteOutlined />}
+                    commentsNumberCard={comment.commentsNumber}
+                    textComments={comment.text}
+                    votesCountCard={comment.votesCount}
+                  ></Comments>
+                )
                 )}
               >
               </Post>
@@ -275,8 +291,8 @@ const mapDispatchToProps = dispatch => ({
   postUpVote: (id) => dispatch(postUpVote(id)),
   postDownVote: (id) => dispatch(postDownVote(id)),
   onCloseSnackBar: () => dispatch(onCloseSnackBar()),
-  postDownVoteComments: (commentId, postId) =>dispatch(postDownComments(commentId, postId)),
-  postUpVoteComments: (commentId, postId) =>dispatch(postUpComments(commentId, postId))
+  postDownVoteComments: (commentId, postId) => dispatch(postDownComments(commentId, postId)),
+  postUpVoteComments: (commentId, postId) => dispatch(postUpComments(commentId, postId))
 
   //   goToFeed: () => dispatch(push(routes.login)),
   //   goToApplicationForm: () => dispatch(push(routes.applicationForm)),

@@ -5,14 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import { routes } from "../Router";
-// import { DivStyled, Div1, Div2, CardStyled } from '../../style/theme'
-// import ButtonAppBar from '../../componentes/appBar'
-// import { login } from "../../actions/auth";
-import { Card, CardHeader, IconButton, Collapse, List, ListItemText, ListItemSecondaryAction, ListItem, Snackbar } from "@material-ui/core";
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Card, Snackbar } from "@material-ui/core";
 import { getPosts } from '../../actions/posts'
 import Post from "../../components/Post.js/post";
 import UpVote from '@material-ui/icons/ThumbUp';
@@ -88,6 +81,15 @@ const DivPosts = styled.div`
   flex-direction:column;
   align-items:center;
 `
+const PostCommentWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+`
+const StyledTextField = styled(TextField)`
+    width: 80%;
+`
 
 class Feed extends Component {
   constructor(props) {
@@ -106,14 +108,6 @@ class Feed extends Component {
       this.props.goToLoginPage();
     }
   }
-
-  // componentDidUpdate(prevProps){
-  //   if(this.props.posts !== prevProps.post){
-  //     this.setState({
-  //       post: this.props.posts
-  //     })
-  //   }
-  // }
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
@@ -137,31 +131,19 @@ class Feed extends Component {
 
   clickUpVote = (post) => {
     this.props.postUpVote(post.id)
-    // if (post.userVoteDirection < 0) {
-    //   this.props.postUpVote(post.id)
-    // } 
   }
 
   clickDownVote = (post) => {
     this.props.postDownVote(post.id)
-    // if (post.userVoteDirection > 0) {
-    //   this.props.postDownVote(post.id)
-    // } 
   }
   clickDownVoteComments = (commentId, postId) => {
     console.log('comment', commentId, 'post', postId)
     this.props.postDownVoteComments(commentId, postId)
-    // if (post.userVoteDirection > 0) {
-    //   this.props.postDownVoteComments(post.id)
-    // } 
   }
 
   clickUpVoteComments = (commentId, postId) => {
     console.log('comment', commentId, 'post', postId)
     this.props.postUpVoteComments(commentId, postId)
-    // if (post.userVoteDirection < 0) {
-    //   this.props.postUpVoteComments(post.id)
-    // } 
   }
   comments = async (postId) => {
     console.log(postId)
@@ -197,9 +179,9 @@ class Feed extends Component {
                 <TextField placeholder={"Sobre o que você quer falar?"}
                   name="title"
                   value={this.state.title}
-                  onChange={this.handleFieldChange} 
+                  onChange={this.handleFieldChange}
                   style={{ marginBottom: '20px' }}
-                  />
+                />
                 <TextField
                   multiline rows={4}
                   style={{ marginBottom: '20px' }}
@@ -235,6 +217,7 @@ class Feed extends Component {
                 showComments={() => this.comments(post.id)}
                 onClickUpVote={() => this.clickUpVote(post)}
                 onClickDownVote={() => this.clickDownVote(post)}
+
                 comments={this.state[post.id] && this.state[post.id].map((comment) => (
                   <Comments
                     UserName={comment.username}
@@ -245,30 +228,33 @@ class Feed extends Component {
                     commentsNumberCard={comment.commentsNumber}
                     textComments={comment.text}
                     votesCountCard={comment.votesCount}
-                  ></Comments>
-                )
-                )}
-              >
+                  >
+                  </Comments>
+                
+                ))}
+                >
               </Post>
+
             </DivPosts>
-          ))}
+        ))
+        }
         </FeedContent>
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          open={this.props.open}
-          autoHideDuration={6000}
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={this.props.open}
+        autoHideDuration={6000}
+        onClose={this.handleClose}
+      >
+        <MySnackbarContentWrapper
           onClose={this.handleClose}
-        >
-          <MySnackbarContentWrapper
-            onClose={this.handleClose}
-            variant={this.props.variant}
-            message={this.props.msg}
-          />
-        </Snackbar>
-      </AppWrapper>
+          variant={this.props.variant}
+          message={this.props.msg}
+        />
+      </Snackbar>
+      </AppWrapper >
     );
   }
 }

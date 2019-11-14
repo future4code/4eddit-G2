@@ -26,6 +26,10 @@ class Post extends Component {
         };
     }
 
+    handleExpandClick = () => {
+        this.setState(state => ({ expanded: !state.expanded }));
+        this.props.showComments()
+      };
     
     render(){
     return (
@@ -36,33 +40,33 @@ class Post extends Component {
             />
             <CardContent>
                 <Typography component="p">
-                  <p>  {this.props.textCard}</p>
+                    {this.props.textCard}
           </Typography>
             </CardContent>
-            <CardActions disableActionSpacing  style={{ justifyContent: 'space-between' }} zIndex="0">
+            <CardActions disableActionSpacing  style={{ justifyContent: 'space-between' }}>
                 
-                <IconButton >
+                <IconButton onClick={this.props.onClickUpVote} >
                    {this.props.upVote}
                 </IconButton>
                     <p>{this.props.votesCountCard}</p>
-                <IconButton >
+                <IconButton onClick={this.props.onClickDownVote}>
                     {this.props.DownVote}
                 </IconButton>
                     
                 <Button
                     size="small"
                     color="primary"
-                    onClick={this.props.handleExpandClick}
-                    aria-expanded={this.props.expanded}
+                    onClick={this.handleExpandClick}
+                    aria-expanded={this.state.expanded}
                     aria-label="Show more"
                 >
                    {this.props.commentsNumberCard} Comentários
             </Button>
                 
             </CardActions>
-            <Collapse in={this.props.expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    {this.props.showComments}
+            <Collapse in={this.state.expanded}timeout="auto" unmountOnExit>
+                <CardContent >
+                    {this.props.comments}
                 </CardContent>
             </Collapse>
         </CardStyled>

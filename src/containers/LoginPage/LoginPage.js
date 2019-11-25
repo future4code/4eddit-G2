@@ -5,9 +5,6 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import { routes } from "../Router";
-// import { DivStyled, Div1, Div2, CardStyled } from '../../style/theme'
-// import ButtonAppBar from '../../componentes/appBar'
-// import { login } from "../../actions/auth";
 import { Card } from "@material-ui/core";
 import { login } from "../../actions/auth";
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -27,7 +24,11 @@ const LoginStyled = styled(Card)`
   display:flex;
   flex-direction:column;
   padding:10px;
-  box-shadow: 4px 4px 5px lightgray;
+  box-shadow: 3px 3px 4px #006064;
+
+  :hover{
+  box-shadow: 4px 4px 5px #006064;
+  }
 `
 const StyledBtn = styled(Button)`
   background-color: #00C1C8;
@@ -45,6 +46,7 @@ const DivStyled = styled.div`
   flex-direction:column;
   justify-content:center;
   align-items:center;
+  background-color: #002628;
 `
 
 class LoginPage extends Component {

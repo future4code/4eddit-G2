@@ -1,21 +1,34 @@
 import React, { Component } from "react";
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import { Card, CardHeader, IconButton, Collapse, List, ListItemText, ListItemSecondaryAction, ListItem } from "@material-ui/core";
+import { Card, CardHeader, IconButton, Collapse } from "@material-ui/core";
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
-import UpVote from '@material-ui/icons/KeyboardArrowUp';
-import DownVote from '@material-ui/icons/KeyboardArrowDown';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import styled from "styled-components";
+import TextField from "@material-ui/core/TextField";
 
 export const CardStyled = styled(Card)`
   width: 50vw;
   display:flex;
   flex-direction:column;
   margin-bottom:30px;
+`
+const PostCommentWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding: 10px;
+`
+const StyledTextField = styled(TextField)`
+    width: 80%;
+`
+const StyledBtn = styled(Button)`
+    height: 55px;
+    
+`
+const IconWrapper = styled.div`
+    display: flex;
 `
 
 class Post extends Component {
@@ -29,14 +42,22 @@ class Post extends Component {
     handleExpandClick = () => {
         this.setState(state => ({ expanded: !state.expanded }));
         this.props.showComments()
-      };
+    };
+
+    handleFieldChange = event => {
+        this.setState({
+          [event.target.name]: event.target.value
+        });
+    };
+
+    
     
     render(){
     return (
         <CardStyled >
             <CardHeader
                 title={this.props.titleCard}
-                subheader={this.props.usernameCard}
+                subheader={"Postado por: " + this.props.usernameCard}
             />
             <CardContent>
                 <Typography component="p">
@@ -45,6 +66,7 @@ class Post extends Component {
             </CardContent>
             <CardActions disableActionSpacing  style={{ justifyContent: 'space-between' }}>
                 
+                <IconWrapper>
                 <IconButton onClick={this.props.onClickUpVote} >
                    {this.props.upVote}
                 </IconButton>
@@ -52,6 +74,7 @@ class Post extends Component {
                 <IconButton onClick={this.props.onClickDownVote}>
                     {this.props.DownVote}
                 </IconButton>
+                </IconWrapper>
                     
                 <Button
                     size="small"
@@ -68,6 +91,26 @@ class Post extends Component {
                 <CardContent >
                     {this.props.comments}
                 </CardContent>
+                <PostCommentWrapper>
+                    <StyledTextField
+                        name="comentario"
+                        placeholder="Escreva seu comentário..."
+                        type="text"
+                        value={this.state.comentario}
+                        onChange={this.handleFieldChange}
+                        variant="outlined"
+                    >
+                    </StyledTextField>
+                    <StyledBtn
+                        color="primary"
+                        type='submit'
+                        variant="contained"
+                        onClick={this.props.onClickSendComment}
+                        disabled={!this.state.comentario}
+                    >
+                        Comentar
+                    </StyledBtn>
+                </PostCommentWrapper>
             </Collapse>
         </CardStyled>
 
